@@ -26,18 +26,21 @@
 				</div>
 			</div>
 
-			<notifications group="general" position='bottom-right' />
+			<notifications group="general" position='bottom right' />
+			<footerDefaultComponent />
 		</div>
 	</div>
 </template>
 
 <script>
 	import LoginComponent from '../pages/LoginComponent';
+	import footerDefaultComponent from './footers/footerDefaultComponent';
 
 	export default {
 		name: 'default-layout-component',
 		components: {
-			LoginComponent
+			LoginComponent,
+			footerDefaultComponent
 		},
 		props: [],
 		data() {

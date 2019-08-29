@@ -5,7 +5,7 @@
 
 				<h4><a href='javascript:void(0)' @click='openModal({ modal: "CreateProject", params: {} })'><i class="fas fa-plus"></i></a> Projects</h4>
 				<ul class='list-group' v-if="toDo.projects.length > 0">
-					<li class='list-group-item list-group-item-info' v-for='project, index in toDo.projects' @click='selectItem("project", index)'>
+					<li class='list-group-item list-group-item-dark' v-for='project, index in toDo.projects' @click='selectItem("project", index)'>
 						<a href='javascript:void(0)'><i class="fas fa-trash" @click="deleteProject({ id: project.id })"></i></a>
 						<a href='javascript:void(0)'>{{ project.Name }}</a>
 					</li>
@@ -18,7 +18,7 @@
 							params: { ProjectId : toDo.projects[selected.project].id }
 						})'><i class="fas fa-plus"></i></a> Categories</h4>
 					<ul class='list-group' v-if="toDo.categories.length > 0">
-						<li class='list-group-item list-group-item-success' v-for='category, index in toDo.categories' @click='selectItem("category", index)' v-if='toDo.projects[selected.project].id == category.ProjectId'>
+						<li class='list-group-item list-group-item-light' v-for='category, index in toDo.categories' @click='selectItem("category", index)' v-if='toDo.projects[selected.project].id == category.ProjectId'>
 							<a href='javascript:void(0)'><i class="fas fa-trash" @click="deleteCategory({ id: category.id })"></i></a>
 							<a href='javascript:void(0)'>{{ category.Name }}</a>
 						</li>
@@ -28,7 +28,7 @@
 				<div class='my-2' v-if='selected.category != null'>
 					<h4><a href='javascript:void(0)' @click='openModal({ modal: "CreateTask", params: { CategoryId : toDo.categories[selected.category].id } })'><i class="fas fa-plus"></i></a> Tasks</h4>
 					<ul class='list-group' v-if="toDo.tasks.length > 0">
-						<li class='list-group-item list-group-item-primary' @click='selectItem("task", index)' v-for='task, index in toDo.tasks' v-if='toDo.categories[selected.category].id == task.CategoryId'>
+						<li :class='taskGroupItemClass(task.Status)' @click='selectItem("task", index)' v-for='task, index in toDo.tasks' v-if='toDo.categories[selected.category].id == task.CategoryId'>
 							<a href='javascript:void(0)'><i class="fas fa-trash" @click="deleteTask({ id: task.id })"></i></a>
 							<a href='javascript:void(0)'>{{ task.Name }}</a>
 						</li>
@@ -113,6 +113,17 @@
 			},
 		},
 		methods: {
+			taskGroupItemClass(status) {
+				if (status == 0) {
+					return 'list-group-item list-group-item-warning';
+				} else if (status == 1) {
+					return 'list-group-item list-group-item-info';
+				} else if (status == 2) {
+					return 'list-group-item list-group-item-danger';
+				} else if (status == 3) {
+					return 'list-group-item list-group-item-success';
+				}
+			},
 			selectItem(type, id) {
 				this.$store.dispatch('toDoStore/setSelected', { type: type, id: id });
 			},
