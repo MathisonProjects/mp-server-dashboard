@@ -21,7 +21,12 @@ const routes = [
 				component : require('../pages/ToDoListComponent.vue').default,
 				meta      : { title : 'Home' }
 			},
-
+			{
+				path      : 'auth',
+				name      : 'home-auth',
+				component : require('../pages/AuthComponent.vue').default,
+				meta      : { title : 'Auth' }
+			},
 		]
 	}
 ];
