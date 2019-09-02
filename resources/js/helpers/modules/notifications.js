@@ -36,6 +36,12 @@ export default {
 			'You managed to login successfully'
 		);
 	},
+	logoutSuccess() {
+		this.fireSuccess(
+			'Logout - Success',
+			'You managed to logout successfully'
+		);
+	},
 	// Tasks
 	// Starting
 	projectCreate() {

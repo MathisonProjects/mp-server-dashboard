@@ -4,7 +4,7 @@ export default {
 	namespaced: true,
 	state    : {
 		user : {},
-		token: {}
+		token: null
 	},
 	mutations: {
 		SET_USER(state, payload) {
@@ -17,11 +17,15 @@ export default {
 	actions  : {
 		login({commit}, payload) {
 			commit('SET_USER', payload);
+		},
+		logout({commit}) {
+			commit('SET_TOKEN', null);
+			commit('SET_USER' , {});
 		}
 	},
 	getters: {
 		isLoggedIn : state => {
-			if (_.isEmpty(state.user)) {
+			if (_.isEmpty(state.user) || state.token == null) {
 				return false;
 			} else {
 				return true;

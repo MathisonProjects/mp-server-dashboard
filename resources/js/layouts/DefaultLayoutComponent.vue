@@ -1,5 +1,9 @@
 <template>
 	<div>
+		<video autoplay muted loop id="myVideo" v-if='!loggedIn'>
+			<source src="video/bg-digitalrain.mp4" type="video/mp4">
+		</video>
+
 		<div>
 			<div class='container my-3' v-if='!loggedIn'>
 				<LoginComponent />
@@ -18,6 +22,9 @@
 									<a class="nav-link" href="javascript:void(0)">Home <span class="sr-only">(current)</span></a>
 								</li>
 							</router-link>
+								<li class="nav-item active">
+									<a class="nav-link" href="javascript:void(0)" @click='logout'>Logout</a>
+								</li>
 						</ul>
 					</div>
 				</nav>
@@ -27,7 +34,7 @@
 			</div>
 
 			<notifications group="general" position='bottom right' />
-			<footerDefaultComponent />
+			<footerDefaultComponent v-if='loggedIn' />
 		</div>
 	</div>
 </template>
@@ -51,10 +58,21 @@
 				return this.$store.getters['userStore/isLoggedIn'];
 			}
 		},
-		methods: {}
+		methods: {
+			logout() {
+				this.$store.dispatch('userStore/logout');
+				this.$Helper.notifications.logoutSuccess();
+			}
+		}
 	};
 </script>
 
 <style scoped>
-
+	#myVideo {
+	  position: fixed;
+	  right: 0;
+	  bottom: 0;
+	  min-width: 100%; 
+	  min-height: 100%;
+	}
 </style>

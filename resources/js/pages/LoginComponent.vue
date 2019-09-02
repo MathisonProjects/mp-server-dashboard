@@ -1,16 +1,20 @@
 <template>
-	<div class="card">
-		<h5 class="card-header">Login</h5>
-		<div class="card-body">
-			<div class='form-group'>
-				<label>Username</label>
-				<input tpye='text' class='form-control' v-model='data.username' placeholder='eg. jon@doe.com' />
+	<div class='row'>
+		<div class='offset-md-3 col-md-6'>
+			<div class="card">
+				<h5 class="card-header">Dashboard Login</h5>
+				<div class="card-body">
+					<div class='form-group'>
+						<label><i class="fas fa-user"></i> Username</label>
+						<input tpye='text' class='form-control' v-model='data.username' placeholder='eg. jon@doe.com' />
+					</div>
+					<div class='form-group'>
+						<label><i class="fas fa-key"></i> Password</label>
+		    			<input type="password" class="form-control" v-model='data.password' placeholder="eg. ******">
+					</div>
+					<button type='button' class='btn btn-primary' @click='login'>Login</button>
+				</div>
 			</div>
-			<div class='form-group'>
-				<label>Password</label>
-    			<input type="password" class="form-control" v-model='data.password' placeholder="eg. ******">
-			</div>
-			<button type='button' class='btn btn-primary' @click='login'>Login</button>
 		</div>
 	</div>
 </template>
@@ -32,11 +36,11 @@
 		methods: {
 			login() {
 				this.$store.dispatch('userStore/login', this.data);
+				this.$Helper.notifications.loginSuccess();
 			}
 		}
 	};
 </script>
 
 <style scoped>
-
 </style>
