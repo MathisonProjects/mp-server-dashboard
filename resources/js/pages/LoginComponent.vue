@@ -5,8 +5,8 @@
 				<h5 class="card-header">Dashboard Login</h5>
 				<div class="card-body">
 					<div class='form-group'>
-						<label><i class="fas fa-user"></i> Username</label>
-						<input tpye='text' class='form-control' v-model='data.username' placeholder='eg. jon@doe.com' />
+						<label><i class="fas fa-user"></i> Email</label>
+						<input tpye='text' class='form-control' v-model='data.email' placeholder='eg. jon@doe.com' />
 					</div>
 					<div class='form-group'>
 						<label><i class="fas fa-key"></i> Password</label>
@@ -28,7 +28,7 @@
 		data() {
 			return {
 				data: {
-					username : '',
+					email : '',
 					password : ''
 				}
 			}

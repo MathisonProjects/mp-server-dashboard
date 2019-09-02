@@ -2,13 +2,15 @@
 namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\User;
 use Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     public function register (Request $request) {
+    	// We do not want public registration.
+    	exit;
 	    $validator = Validator::make($request->all(), [
 	        'name'     => 'required|string|max:255',
 	        'email'    => 'required|string|email|max:255|unique:users',
@@ -23,8 +25,10 @@ class UserController extends Controller
 	    $response = ['token' => $token];
 	    return response($response, 200);
 	}
-	
-	public function login (Request $request) {
+
+	public function login(Request $request) {
+		User::checkUsersExist($request->input());
+
 	    $user = User::where('email', $request->email)->first();
 	    if ($user) {
 	        if (Hash::check($request->password, $user->password)) {

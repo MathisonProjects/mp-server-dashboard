@@ -6693,7 +6693,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       data: {
-        username: '',
+        email: '',
         password: ''
       }
     };
@@ -86929,19 +86929,19 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.data.username,
-                  expression: "data.username"
+                  value: _vm.data.email,
+                  expression: "data.email"
                 }
               ],
               staticClass: "form-control",
               attrs: { tpye: "text", placeholder: "eg. jon@doe.com" },
-              domProps: { value: _vm.data.username },
+              domProps: { value: _vm.data.email },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.data, "username", $event.target.value)
+                  _vm.$set(_vm.data, "email", $event.target.value)
                 }
               }
             })
@@ -86994,7 +86994,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", [
       _c("i", { staticClass: "fas fa-user" }),
-      _vm._v(" Username")
+      _vm._v(" Email")
     ])
   },
   function() {
@@ -105855,7 +105855,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: {
-    user: {},
+    user: {
+      token: null
+    },
     token: null
   },
   mutations: {
@@ -105869,7 +105871,13 @@ __webpack_require__.r(__webpack_exports__);
   actions: {
     login: function login(_ref, payload) {
       var commit = _ref.commit;
-      commit('SET_USER', payload);
+      axios.post('api/login', payload).then(function (request) {
+        var data = request.data;
+        commit('SET_USER', {
+          token: data.token
+        });
+        commit('SET_TOKEN', data.token);
+      });
     },
     logout: function logout(_ref2) {
       var commit = _ref2.commit;

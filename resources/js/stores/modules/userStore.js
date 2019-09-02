@@ -3,7 +3,9 @@ import _ from 'lodash';
 export default {
 	namespaced: true,
 	state    : {
-		user : {},
+		user : {
+			token : null
+		},
 		token: null
 	},
 	mutations: {
@@ -16,7 +18,12 @@ export default {
 	},
 	actions  : {
 		login({commit}, payload) {
-			commit('SET_USER', payload);
+
+			axios.post('api/login', payload).then( request => {
+				var data = request.data;
+				commit('SET_USER', { token : data.token });
+				commit('SET_TOKEN', data.token );
+			});
 		},
 		logout({commit}) {
 			commit('SET_TOKEN', null);
