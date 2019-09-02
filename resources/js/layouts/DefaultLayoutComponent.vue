@@ -10,24 +10,7 @@
 			</div>
 			
 			<div v-if='loggedIn'>
-				<nav class="navbar navbar-expand-lg navbar-light bg-light">
-					<a class="navbar-brand" href="#">Dashboard</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbarNav">
-						<ul class="navbar-nav">
-							<router-link to="/">
-								<li class="nav-item active">
-									<a class="nav-link" href="javascript:void(0)">Home <span class="sr-only">(current)</span></a>
-								</li>
-							</router-link>
-								<li class="nav-item active">
-									<a class="nav-link" href="javascript:void(0)" @click='logout'>Logout</a>
-								</li>
-						</ul>
-					</div>
-				</nav>
+				<DefaultNavHeaderComponent />
 				<div  class='container my-3'>
 					<router-view></router-view>
 				</div>
@@ -42,12 +25,14 @@
 <script>
 	import LoginComponent from '../pages/LoginComponent';
 	import footerDefaultComponent from './footers/footerDefaultComponent';
+	import DefaultNavHeaderComponent from './headers/DefaultNavHeaderComponent'
 
 	export default {
 		name: 'default-layout-component',
 		components: {
 			LoginComponent,
-			footerDefaultComponent
+			footerDefaultComponent,
+			DefaultNavHeaderComponent
 		},
 		props: [],
 		data() {

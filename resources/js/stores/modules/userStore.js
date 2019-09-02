@@ -18,7 +18,6 @@ export default {
 	},
 	actions  : {
 		login({commit}, payload) {
-
 			axios.post('api/login', payload).then( request => {
 				var data = request.data;
 				commit('SET_USER', { token : data.token });

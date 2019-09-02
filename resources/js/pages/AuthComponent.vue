@@ -42,7 +42,9 @@
 		name      : "auth-component",
 		props     : [],
 		components: {},
-		created()   {},
+		created()   {
+			this.$store.dispatch('authStore/getUserAuths');
+		},
 		data()      { return {} },
 		computed  : {
 			usersList() {

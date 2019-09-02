@@ -12,7 +12,7 @@
 						<label><i class="fas fa-key"></i> Password</label>
 		    			<input type="password" class="form-control" v-model='data.password' placeholder="eg. ******">
 					</div>
-					<button type='button' class='btn btn-primary' @click='login'>Login</button>
+					<button type='button' class='btn btn-primary' @click='login'><i class="fas fa-sign-in-alt"></i> Login</button>
 				</div>
 			</div>
 		</div>

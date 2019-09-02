@@ -33,6 +33,15 @@ Route::prefix('v1')->group(function () {
 		Route::post('deleteCategories','Api\TodoController@deleteCategories');
 		Route::post('deleteTasks'     ,'Api\TodoController@deleteTasks');
 	});
+
+	Route::prefix('auth')->group(function() {
+		Route::post('createUser' , 'Api\AuthController@createUser');
+		Route::post('updateUser' , 'Api\AuthController@updateUser');
+		Route::post('suspendUser' , 'Api\AuthController@suspendUser');
+		Route::post('refreshClient' , 'Api\AuthController@refreshClient');
+		Route::post('refreshSecret' , 'Api\AuthController@refreshSecret');
+		Route::post('refreshApiKey' , 'Api\AuthController@refreshApiKey');
+	});
 });
 
 
