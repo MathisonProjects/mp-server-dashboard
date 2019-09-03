@@ -2,22 +2,40 @@ import notifications from './notifications';
 
 export default {
 	// User
-	createUser() {
-		axios.post('api/v1/createUser', data).then( response => {} );
+	createUser(data) {
+		notifications.createUserAttempt();
+		axios.post('api/v1/createUser', data).then( response => {
+			notifications.createdUser();
+		} );
 	},
 	updateUser() {
-		axios.post('api/v1/updateUser', data).then( response => {} );
+		notifications.createUserAttempt();
+		axios.post('api/v1/updateUser', data).then( response => {
+			notifications.createdUser();
+		} );
 	},
 	suspendUser() {
-		axios.post('api/v1/suspendUser', data).then( response => {} );
+		notifications.createUserAttempt();
+		axios.post('api/v1/suspendUser', data).then( response => {
+			notifications.createdUser();
+		} );
 	},
 	refreshClient() {
-		axios.post('api/v1/refreshClient', data).then( response => {} );
+		notifications.createUserAttempt();
+		axios.post('api/v1/refreshClient', data).then( response => {
+			notifications.createdUser();
+		} );
 	},
 	refreshSecret() {
-		axios.post('api/v1/refreshSecret', data).then( response => {} );
+		notifications.createUserAttempt();
+		axios.post('api/v1/refreshSecret', data).then( response => {
+			notifications.createdUser();
+		} );
 	},
 	refreshApiKey() {
-		axios.post('api/v1/refreshApiKey', data).then( response => {} );
+		notifications.createUserAttempt();
+		axios.post('api/v1/refreshApiKey', data).then( response => {
+			notifications.createdUser();
+		} );
 	}
 }

@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class='col'><h1>Auth Component</h1></div>
 			<div class='col text-right'>
-				<button type="button" class="btn btn-primary">Create User</button>
+				<button type="button" class="btn btn-primary" @click='openModal({ title: "Create User", modal : "UserModal", args: {} })'>Create User</button>
 			</div>
 		</div>
 		
@@ -17,16 +17,33 @@
 				<th>Edit</th>
 				<th>Set Lock</th>
 			</tr>
-			<tr v-for="user in usersList">
+			<tr v-for="user,index in usersList">
 				<td>{{ user.Username }}</td>
-				<td>{{ user.ClientKey }}</td>
+				<td>{{ user.ClientKey }} <a href="javascript:void(0)"><i class="fas fa-recycle" @click='recycleData(user.id, "client_key")'></i></a></td>
 
-				<td v-if="user.revealed.clientSecret">{{ user.ClientSecret }} <a href="javascript:void(0)"><i class="fas fa-eye-slash"></i></a></td>
-				<td v-if="!user.revealed.clientSecret">****** <a href="javascript:void(0)"><i class="fas fa-eye"></i></a></td>
+				<td v-if="user.revealed.clientSecret">
+					{{ user.ClientSecret }}
+					<a href="javascript:void(0)"><i class="fas fa-eye-slash" @click='revealData(index, "clientSecret")'></i></a>
+					<a href="javascript:void(0)"><i class="fas fa-recycle" @click='recycleData(user.id, "client_secret")'></i></a>
+				</td>
+				<td v-if="!user.revealed.clientSecret">
+					******
+					<a href="javascript:void(0)"><i class="fas fa-eye" @click='revealData(index, "clientSecret")'></i></a>
+					<a href="javascript:void(0)"><i class="fas fa-recycle" @click='recycleData(user.id, "client_secret")'></i></a>
+				</td>
 
 				
-				<td v-if="user.revealed.apiKey">{{ user.ApiKey }} <a href="javascript:void(0)"><i class="fas fa-eye-slash"></i></a></td>
-				<td v-if="!user.revealed.apiKey">****** <a href="javascript:void(0)"><i class="fas fa-eye"></i></a></td>
+				<td v-if="user.revealed.apiKey">
+					{{ user.ApiKey }}
+					<a href="javascript:void(0)"><i class="fas fa-eye-slash" @click='revealData(index, "apiKey")'></i></a>
+					<a href="javascript:void(0)"><i class="fas fa-recycle" @click='recycleData(user.id, "api_key")'></i></a>
+
+				</td>
+				<td v-if="!user.revealed.apiKey">
+					******
+					<a href="javascript:void(0)"><i class="fas fa-eye" @click='revealData(index, "apiKey")'></i></a>
+					<a href="javascript:void(0)"><i class="fas fa-recycle"></i></a>
+				</td>
 				
 				<td><a href="javascript:void(0)"><i class="fas fa-pencil-alt"></i></a></td>
 
@@ -34,60 +51,51 @@
 				<td v-if="user.Suspended"><a href="javascript:void(0)" title="Unlock Account"><i class="fas fa-lock-open"></i></a></td>
 			</tr>
 		</table>
+
+		<ModalComponent v-if='showModal' @close='showModal = false' :params='modalArgs' />
 	</div>
 </template>
 
 <script>
+	import ModalComponent from '../components/Auth/ModalComponent';
+
 	export default {
 		name      : "auth-component",
 		props     : [],
-		components: {},
-		created()   {
-			this.$store.dispatch('authStore/getUserAuths');
+		components: {
+			ModalComponent
 		},
-		data()      { return {} },
+		created()   {
+			this.refreshAuths();
+		},
+		data()      { return {
+			showModal: false,
+			modalArgs: {}
+		} },
 		computed  : {
 			usersList() {
-				return [
-					{
-						id          : 1,
-						Username    : "MathisonProjects",
-						ClientKey   : "abc09e4a-0e60-4464-b8b4-ef5bb097a643",
-						ClientSecret: "",
-						ApiKey      : "",
-						Suspended   : false,
-						revealed    : {
-							clientSecret: false,
-							apiKey      : false
-						}
-					},
-					{
-						id          : 2,
-						Username    : "MathisonProjects2",
-						ClientKey   : "abc09e4a-0e60-4de4-b8b4-ef5bb097a643",
-						ClientSecret: "asdfasdf",
-						ApiKey      : "asd",
-						Suspended   : true,
-						revealed    : {
-							clientSecret: true,
-							apiKey      : true
-						}
-					}
-				];
+				return this.$store.state.authStore.auths;
 			}
 		},
 		methods   : {
-			createUser() {
-
+			openModal(args) {
+				this.modalArgs = args;
+				this.showModal = true;
 			},
-			editUser() {
+			recycleData(uid, type) {
 
+				this.refreshAuths();
 			},
-			refreshKey() {},
-			rereshSecret() {},
-			revealSecret() {},
-			revealApiKey() {},
-			changeLockOfUser() {}
+			refreshAuths() {
+				this.$store.dispatch('authStore/getUserAuths');
+			},
+			revealData(index, type) {
+				var data = {
+					id  : index,
+					type: type
+				};
+				this.$store.dispatch('authStore/reveal', data);
+			}
 		},
 		watch     : {}
 	};

@@ -44,10 +44,6 @@
 			}
 		},
 		methods: {
-			logout() {
-				this.$store.dispatch('userStore/logout');
-				this.$Helper.notifications.logoutSuccess();
-			}
 		}
 	};
 </script>

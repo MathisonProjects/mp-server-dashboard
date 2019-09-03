@@ -19,7 +19,11 @@ export default {
 				commit('SET_AUTHS', data);
 			});
 		},
-		reveal({commit, state}, payload) { }
+		reveal({commit, state}, payload) {
+			var data = state.auths;
+			data[payload.id].revealed[payload.type] = !data[payload.id].revealed[payload.type];
+			commit('SET_AUTHS', data);
+		}
 	},
 	getters   : {}
 }

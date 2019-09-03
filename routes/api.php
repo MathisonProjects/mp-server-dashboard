@@ -21,6 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::prefix('v1')->group(function () {
+	Route::post('getAuths', 'Api\AuthController@getAuths');
+
 	Route::prefix('todo')->group(function() {
 		Route::post('getRefresh'      ,'Api\TodoController@getRefresh');
 		Route::post('createProject'   ,'Api\TodoController@createProject');

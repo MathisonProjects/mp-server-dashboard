@@ -27,7 +27,12 @@
 		created()   {},
 		data()      { return {} },
 		computed  : {},
-		methods   : {},
+		methods   : {
+			logout() {
+				this.$store.dispatch('userStore/logout');
+				this.$Helper.notifications.logoutSuccess();
+			}
+		},
 		watch     : {}
 	};
 </script>

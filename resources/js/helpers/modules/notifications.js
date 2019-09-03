@@ -30,6 +30,18 @@ export default {
 		);
 	},
 	// User
+	createUserAttempt() {
+		this.fireInfo(
+			'User Creation',
+			'We are attempting to create a user...'
+		);
+	},
+	createdUser() {
+		this.fireSuccess(
+			'User Created',
+			'We are created a user!'
+		);
+	},
 	loginSuccess() {
 		this.fireSuccess(
 			'Login - Success',
