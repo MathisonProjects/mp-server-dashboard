@@ -42,7 +42,7 @@
 				<td v-if="!user.revealed.apiKey">
 					******
 					<a href="javascript:void(0)"><i class="fas fa-eye" @click='revealData(index, "apiKey")'></i></a>
-					<a href="javascript:void(0)"><i class="fas fa-recycle"></i></a>
+					<a href="javascript:void(0)"><i class="fas fa-recycle" @click='recycleData(user.id, "api_key")'></i></a>
 				</td>
 				
 				<td><a href="javascript:void(0)"><i class="fas fa-pencil-alt"></i></a></td>
@@ -83,8 +83,22 @@
 				this.showModal = true;
 			},
 			recycleData(uid, type) {
-
-				this.refreshAuths();
+				var data = {
+					uid : uid
+				};
+				if (type == 'client_key') {
+					axios.post('api/v1/auth/refreshClient', data).then( response => {
+						this.refreshAuths();
+					});
+				} else if (type == 'client_secret') {
+					axios.post('api/v1/auth/refreshSecret', data).then( response => {
+						this.refreshAuths();
+					});
+				} else if (type == 'api_key') {
+					axios.post('api/v1/auth/refreshApiKey', data).then( response => {
+						this.refreshAuths();
+					});
+				}
 			},
 			refreshAuths() {
 				this.$store.dispatch('authStore/getUserAuths');

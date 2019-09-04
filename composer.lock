@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0cb8e3383ada487835c21082c4527b1d",
+    "content-hash": "37717bfbe36a47b50aeb1ad113f66f3e",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -2196,6 +2196,63 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "sudiptpa/guid",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sudiptpa/guid.git",
+                "reference": "fcf568932d7342ab23c19eb94f7a2020a569ec86"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sudiptpa/guid/zipball/fcf568932d7342ab23c19eb94f7a2020a569ec86",
+                "reference": "fcf568932d7342ab23c19eb94f7a2020a569ec86",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Sujip\\Guid\\GuidServiceProvider"
+                    ],
+                    "aliases": {
+                        "Guid": "Sujip\\Guid\\Facades\\Guid"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sujip\\Guid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sujip Thapa",
+                    "role": "Senior Developer",
+                    "email": "sudiptpa@gmail.com",
+                    "homepage": "https://sujipthapa.co"
+                }
+            ],
+            "description": "A Simple GUID generator Package for PHP.",
+            "keywords": [
+                "guid"
+            ],
+            "time": "2017-10-06T14:18:56+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

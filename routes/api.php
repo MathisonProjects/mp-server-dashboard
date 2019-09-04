@@ -46,9 +46,6 @@ Route::prefix('v1')->group(function () {
 	});
 });
 
-
-
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -63,4 +60,10 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/logout', 'Api\UserController@logout')->name('logout');
     });
+});
+
+Route::group(['middleware' => ['api.AuthCheck']], function () {
+	Route::post('apiKeyTest', function() {
+		return 'API Key Works';
+	});
 });

@@ -6741,7 +6741,25 @@ __webpack_require__.r(__webpack_exports__);
       this.showModal = true;
     },
     recycleData: function recycleData(uid, type) {
-      this.refreshAuths();
+      var _this = this;
+
+      var data = {
+        uid: uid
+      };
+
+      if (type == 'client_key') {
+        axios.post('api/v1/auth/refreshClient', data).then(function (response) {
+          _this.refreshAuths();
+        });
+      } else if (type == 'client_secret') {
+        axios.post('api/v1/auth/refreshSecret', data).then(function (response) {
+          _this.refreshAuths();
+        });
+      } else if (type == 'api_key') {
+        axios.post('api/v1/auth/refreshApiKey', data).then(function (response) {
+          _this.refreshAuths();
+        });
+      }
     },
     refreshAuths: function refreshAuths() {
       this.$store.dispatch('authStore/getUserAuths');
@@ -87164,15 +87182,24 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _vm._m(2, true)
+                    _c("a", { attrs: { href: "javascript:void(0)" } }, [
+                      _c("i", {
+                        staticClass: "fas fa-recycle",
+                        on: {
+                          click: function($event) {
+                            return _vm.recycleData(user.id, "api_key")
+                          }
+                        }
+                      })
+                    ])
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _vm._m(3, true),
+              _vm._m(2, true),
               _vm._v(" "),
-              !user.Suspended ? _c("td", [_vm._m(4, true)]) : _vm._e(),
+              !user.Suspended ? _c("td", [_vm._m(3, true)]) : _vm._e(),
               _vm._v(" "),
-              user.Suspended ? _c("td", [_vm._m(5, true)]) : _vm._e()
+              user.Suspended ? _c("td", [_vm._m(4, true)]) : _vm._e()
             ])
           })
         ],
@@ -87232,14 +87259,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Edit")]),
       _vm._v(" "),
       _c("th", [_vm._v("Set Lock")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "javascript:void(0)" } }, [
-      _c("i", { staticClass: "fas fa-recycle" })
     ])
   },
   function() {

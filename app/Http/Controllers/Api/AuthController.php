@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Sujip\Guid\Guid;
+
 use App\User;
 use App\Models\ApiAuth;
 
@@ -48,14 +50,37 @@ class AuthController extends Controller
 	}
 
 	public function refreshClient(Request $request) {
-
+		$auth = ApiAuth::where('uid', $request->input('uid'))->first();
+		if (!$auth) {
+			$auth = new ApiAuth;
+			$auth->uid = $request->input('uid');
+		}
+		$auth->client_key = $this->getGuid();
+		$auth->save();
 	}
 
 	public function refreshSecret(Request $request) {
-
+		$auth = ApiAuth::where('uid', $request->input('uid'))->first();
+		if (!$auth) {
+			$auth = new ApiAuth;
+			$auth->uid = $request->input('uid');
+		}
+		$auth->client_secret = $this->getGuid();
+		$auth->save();
 	}
 
 	public function refreshApiKey(Request $request) {
+		$auth = ApiAuth::where('uid', $request->input('uid'))->first();
+		if (!$auth) {
+			$auth = new ApiAuth;
+			$auth->uid = $request->input('uid');
+		}
+		$auth->api_key = $this->getGuid();
+		$auth->save();
+	}
 
+	private function getGuid() {
+		$guid = new Guid;
+		return $guid->create();
 	}
 }
