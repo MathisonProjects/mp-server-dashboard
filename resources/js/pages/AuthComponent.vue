@@ -47,8 +47,8 @@
 				
 				<td><a href="javascript:void(0)"><i class="fas fa-pencil-alt"></i></a></td>
 
-				<td v-if="!user.Suspended"><a href="javascript:void(0)" title="Lock Account"><i class="fas fa-lock"></i></a></td>
-				<td v-if="user.Suspended"><a href="javascript:void(0)" title="Unlock Account"><i class="fas fa-lock-open"></i></a></td>
+				<td v-if="user.Suspended"><a href="javascript:void(0)" title="Lock Account" @click='suspendUser(user.id,user.Suspended)'><i class="fas fa-lock"></i></a></td>
+				<td v-if="!user.Suspended"><a href="javascript:void(0)" title="Unlock Account" @click='suspendUser(user.id,user.Suspended)'><i class="fas fa-lock-open"></i></a></td>
 			</tr>
 		</table>
 
@@ -87,18 +87,43 @@
 					uid : uid
 				};
 				if (type == 'client_key') {
+					this.$Helper.notifications.refreshingClientKey();
 					axios.post('api/v1/auth/refreshClient', data).then( response => {
+						this.$Helper.notifications.refreshedClientKey();
 						this.refreshAuths();
 					});
 				} else if (type == 'client_secret') {
+					this.$Helper.notifications.refreshingClientSecret();
 					axios.post('api/v1/auth/refreshSecret', data).then( response => {
+						this.$Helper.notifications.refreshedClientSecret();
 						this.refreshAuths();
 					});
 				} else if (type == 'api_key') {
+					this.$Helper.notifications.refreshingApiKey();
 					axios.post('api/v1/auth/refreshApiKey', data).then( response => {
+						this.$Helper.notifications.refreshedApiKey();
 						this.refreshAuths();
 					});
 				}
+			},
+			suspendUser(uid, active) {
+				var data = {
+					uid : uid
+				};
+
+				if (active == 1) {
+					this.$Helper.notifications.suspendingUser();
+				} else {
+					this.$Helper.notifications.unsuspendingUser();
+				}
+				axios.post('api/v1/auth/suspendUser', data).then( response => {
+					if (active == 1) {
+						this.$Helper.notifications.suspendedUser();
+					} else {
+						this.$Helper.notifications.unsuspendedUser();
+					}
+					this.refreshAuths();
+				});
 			},
 			refreshAuths() {
 				this.$store.dispatch('authStore/getUserAuths');
@@ -116,3 +141,5 @@
 </script>
 
 <style scoped></style>
+
+

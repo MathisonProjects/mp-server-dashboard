@@ -6748,18 +6748,50 @@ __webpack_require__.r(__webpack_exports__);
       };
 
       if (type == 'client_key') {
+        this.$Helper.notifications.refreshingClientKey();
         axios.post('api/v1/auth/refreshClient', data).then(function (response) {
+          _this.$Helper.notifications.refreshedClientKey();
+
           _this.refreshAuths();
         });
       } else if (type == 'client_secret') {
+        this.$Helper.notifications.refreshingClientSecret();
         axios.post('api/v1/auth/refreshSecret', data).then(function (response) {
+          _this.$Helper.notifications.refreshedClientSecret();
+
           _this.refreshAuths();
         });
       } else if (type == 'api_key') {
+        this.$Helper.notifications.refreshingApiKey();
         axios.post('api/v1/auth/refreshApiKey', data).then(function (response) {
+          _this.$Helper.notifications.refreshedApiKey();
+
           _this.refreshAuths();
         });
       }
+    },
+    suspendUser: function suspendUser(uid, active) {
+      var _this2 = this;
+
+      var data = {
+        uid: uid
+      };
+
+      if (active == 1) {
+        this.$Helper.notifications.suspendingUser();
+      } else {
+        this.$Helper.notifications.unsuspendingUser();
+      }
+
+      axios.post('api/v1/auth/suspendUser', data).then(function (response) {
+        if (active == 1) {
+          _this2.$Helper.notifications.suspendedUser();
+        } else {
+          _this2.$Helper.notifications.unsuspendedUser();
+        }
+
+        _this2.refreshAuths();
+      });
     },
     refreshAuths: function refreshAuths() {
       this.$store.dispatch('authStore/getUserAuths');
@@ -87197,9 +87229,45 @@ var render = function() {
               _vm._v(" "),
               _vm._m(2, true),
               _vm._v(" "),
-              !user.Suspended ? _c("td", [_vm._m(3, true)]) : _vm._e(),
+              user.Suspended
+                ? _c("td", [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: "javascript:void(0)",
+                          title: "Lock Account"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.suspendUser(user.id, user.Suspended)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-lock" })]
+                    )
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              user.Suspended ? _c("td", [_vm._m(4, true)]) : _vm._e()
+              !user.Suspended
+                ? _c("td", [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: "javascript:void(0)",
+                          title: "Unlock Account"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.suspendUser(user.id, user.Suspended)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-lock-open" })]
+                    )
+                  ])
+                : _vm._e()
             ])
           })
         ],
@@ -87270,26 +87338,6 @@ var staticRenderFns = [
         _c("i", { staticClass: "fas fa-pencil-alt" })
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { attrs: { href: "javascript:void(0)", title: "Lock Account" } },
-      [_c("i", { staticClass: "fas fa-lock" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { attrs: { href: "javascript:void(0)", title: "Unlock Account" } },
-      [_c("i", { staticClass: "fas fa-lock-open" })]
-    )
   }
 ]
 render._withStripped = true
@@ -106056,6 +106104,36 @@ __webpack_require__.r(__webpack_exports__);
   },
   logoutSuccess: function logoutSuccess() {
     this.fireSuccess('Logout - Success', 'You managed to logout successfully');
+  },
+  refreshingClientKey: function refreshingClientKey() {
+    this.fireInfo('Refreshing - Client Key', 'The Client Key is being refreshed.');
+  },
+  refreshingClientSecret: function refreshingClientSecret() {
+    this.fireInfo('Refreshing - Client Secret', 'The Client Secret is being refreshed.');
+  },
+  refreshingApiKey: function refreshingApiKey() {
+    this.fireInfo('Refreshing - API Key', 'The API Key is being refreshed.');
+  },
+  refreshedClientKey: function refreshedClientKey() {
+    this.fireSuccess('Refreshed - Client Key', 'The Client Key is refreshed.');
+  },
+  refreshedClientSecret: function refreshedClientSecret() {
+    this.fireSuccess('Refreshed - Client Secret', 'The Client Secret is refreshed.');
+  },
+  refreshedApiKey: function refreshedApiKey() {
+    this.fireSuccess('Refreshed - API Key', 'The API Key is refreshed.');
+  },
+  suspendingUser: function suspendingUser() {
+    this.fireInfo('Suspending - User', 'The user is being suspended.');
+  },
+  suspendedUser: function suspendedUser() {
+    this.fireSuccess('User Suspended', 'The user is suspended.');
+  },
+  unsuspendingUser: function unsuspendingUser() {
+    this.fireInfo('Unsuspending - User', 'The user is being unsuspended.');
+  },
+  unsuspendedUser: function unsuspendedUser() {
+    this.fireSuccess('User Unsuspended', 'The user is unsuspended.');
   },
   // Tasks
   // Starting

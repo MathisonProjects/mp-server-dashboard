@@ -46,7 +46,20 @@ class AuthController extends Controller
 	}
 
 	public function suspendUser(Request $request) {
+		$auth = ApiAuth::where('uid', $request->input('uid'))->first();
+		if (!$auth) {
+			$auth = new ApiAuth;
+			$auth->uid = $request->input('uid');
+			$auth->active = 0;
+		}
 
+		if ($auth->active == 0) {
+			$auth->active = 1;
+		} else {
+			$auth->active = 0;
+		}
+
+		$auth->save();
 	}
 
 	public function refreshClient(Request $request) {

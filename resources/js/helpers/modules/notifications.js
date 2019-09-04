@@ -54,6 +54,36 @@ export default {
 			'You managed to logout successfully'
 		);
 	},
+	refreshingClientKey() {
+		this.fireInfo('Refreshing - Client Key', 'The Client Key is being refreshed.');
+	},
+	refreshingClientSecret() {
+		this.fireInfo('Refreshing - Client Secret', 'The Client Secret is being refreshed.');
+	},
+	refreshingApiKey() {
+		this.fireInfo('Refreshing - API Key', 'The API Key is being refreshed.');
+	},
+	refreshedClientKey() {
+		this.fireSuccess('Refreshed - Client Key', 'The Client Key is refreshed.');
+	},
+	refreshedClientSecret() {
+		this.fireSuccess('Refreshed - Client Secret', 'The Client Secret is refreshed.');
+	},
+	refreshedApiKey() {
+		this.fireSuccess('Refreshed - API Key', 'The API Key is refreshed.');
+	},
+	suspendingUser() {
+		this.fireInfo('Suspending - User', 'The user is being suspended.');
+	},
+	suspendedUser() {
+		this.fireSuccess('User Suspended', 'The user is suspended.');
+	},
+	unsuspendingUser() {
+		this.fireInfo('Unsuspending - User', 'The user is being unsuspended.');
+	},
+	unsuspendedUser() {
+		this.fireSuccess('User Unsuspended', 'The user is unsuspended.');
+	},
 	// Tasks
 	// Starting
 	projectCreate() {
