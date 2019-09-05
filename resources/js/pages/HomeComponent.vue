@@ -71,6 +71,9 @@
 		data() {
 			return {}
 		},
+		created() {
+			this.$store.dispatch('cloudflareStore/getDevModes');
+		},
 		computed: {},
 		methods: {
 			changePage(page) {

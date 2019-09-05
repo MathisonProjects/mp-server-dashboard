@@ -6890,6 +6890,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
+  created: function created() {
+    this.$store.dispatch('cloudflareStore/getDevModes');
+  },
   computed: {},
   methods: {
     changePage: function changePage(page) {
@@ -106751,6 +106754,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 
 var map = {
 	"./authStore.js": "./resources/js/stores/modules/authStore.js",
+	"./cloudflareStore.js": "./resources/js/stores/modules/cloudflareStore.js",
 	"./index.js": "./resources/js/stores/modules/index.js",
 	"./toDoStore.js": "./resources/js/stores/modules/toDoStore.js",
 	"./userStore.js": "./resources/js/stores/modules/userStore.js"
@@ -106816,6 +106820,42 @@ __webpack_require__.r(__webpack_exports__);
       var data = state.auths;
       data[payload.id].revealed[payload.type] = !data[payload.id].revealed[payload.type];
       commit('SET_AUTHS', data);
+    }
+  },
+  getters: {}
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores/modules/cloudflareStore.js":
+/*!********************************************************!*\
+  !*** ./resources/js/stores/modules/cloudflareStore.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/*
+	Cloudflare requires leveraging something that bypasses CORS. Webbrowsers will not do.
+
+	NodeJs will do.
+*/
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: {
+    devmode: [{
+      site: '',
+      active: false
+    }]
+  },
+  mutations: {
+    SET_DEVMODE: function SET_DEVMODE(state, payload) {}
+  },
+  actions: {
+    getDevModes: function getDevModes() {},
+    refreshDevMode: function refreshDevMode(_ref) {
+      var commit = _ref.commit;
     }
   },
   getters: {}
