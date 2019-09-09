@@ -12,6 +12,23 @@
 			<div v-if='loggedIn'>
 				<DefaultNavHeaderComponent />
 				<div  class='container my-3'>
+
+					<div class="card" v-if='!errors.node'>
+						<div class="card-header">
+							Errors
+						</div>
+						<div class="card-body">
+							<div v-if='!errors.node'>
+
+								<h5 class="card-title">Node Server</h5>
+								<p class="card-text">You need to run the node server in order to communicate with Cloudflare...</p>
+							</div>
+
+
+						</div>
+					</div>
+
+
 					<router-view></router-view>
 				</div>
 			</div>
@@ -41,6 +58,11 @@
 		computed: {
 			loggedIn() {
 				return this.$store.getters['userStore/isLoggedIn'];
+			},
+			errors() {
+				return {
+					node: this.$store.state.nodeStore.nodeConnected
+				};
 			}
 		},
 		methods: {

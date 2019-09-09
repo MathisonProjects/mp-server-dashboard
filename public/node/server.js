@@ -1,5 +1,10 @@
 #!/usr/bin/env nodejs
 require('dotenv').config();
+require('dotenv').config(
+	{
+		path: '/var/www/html/live/dashboard.mathisonprojects.com/.env'
+	}
+);
 var express = require('express'),
     http = require('http');
 var app = express();
@@ -59,7 +64,15 @@ server.listen(port, function(){
 	console.log('listening on *:'+port);
 });
 
-// node -r dotenv/config server.js dotenv_config_path=/var/www/html/live/dashboard.mathisonprojects.com/.env
+
+/*
+	Notes: This is to watch the server.
+	$ node start server.js
+
+	Notes: This is to run the server in the background.
+	$ forever start server.js
+*/
+
 
 
 function runConsole(info) {

@@ -1,6 +1,12 @@
 import notifications from './notifications';
 
 export default {
+	fireApi(info, endpoint, data, success) {
+		notifications[info]();
+		return axios.post(endpoint, data).then( response => {
+			notifications[success]();
+		} );
+	},
 	// User
 	createUser(data) {
 		notifications.createUserAttempt();
@@ -15,27 +21,21 @@ export default {
 		} );
 	},
 	suspendUser() {
-		notifications.createUserAttempt();
-		axios.post('api/v1/suspendUser', data).then( response => {
-			notifications.createdUser();
-		} );
+		return this.fireApi('createUserAttempt', 'api/v1/auth/suspendUser', data, 'createdUser');
 	},
-	refreshClient() {
-		notifications.createUserAttempt();
-		axios.post('api/v1/refreshClient', data).then( response => {
-			notifications.createdUser();
-		} );
+	refreshClient(data) {
+		return this.fireApi('refreshingClientKey', 'api/v1/auth/refreshClient', data, 'refreshedClientKey');
 	},
-	refreshSecret() {
-		notifications.createUserAttempt();
-		axios.post('api/v1/refreshSecret', data).then( response => {
-			notifications.createdUser();
-		} );
+	refreshSecret(data) {
+		return this.fireApi('refreshingClientSecret', 'api/v1/auth/refreshSecret', data, 'refreshedClientSecret');
 	},
-	refreshApiKey() {
-		notifications.createUserAttempt();
-		axios.post('api/v1/refreshApiKey', data).then( response => {
-			notifications.createdUser();
-		} );
-	}
+	refreshApiKey(data) {
+		return this.fireApi('refreshingApiKey', 'api/v1/auth/refreshApiKey', data, 'refreshedApiKey');
+	},
+	// Node
+	refreshServerList() {},
+	addServer() {},
+	updateServer() {},
+	rebootServer() {},
+	activateServer() {}
 }

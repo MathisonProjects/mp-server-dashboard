@@ -27,6 +27,13 @@ const routes = [
 				component : require('../pages/AuthComponent.vue').default,
 				meta      : { title : 'Auth' }
 			},
+			{
+				path      : 'nodejs',
+				name      : 'home-nodejs',
+				component : require('../pages/NodeJsComponent.vue').default,
+				meta      : { title : 'Node JS Servers' }
+			},
+
 		]
 	}
 ];

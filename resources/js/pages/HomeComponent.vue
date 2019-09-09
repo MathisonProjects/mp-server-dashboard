@@ -1,9 +1,15 @@
 <template>
 	<div>
-		<h1>Mathison Projects Dashboard</h1>
+		<div class="card">
+			<div class="card-header">
+				<h3>Mathison Projects Dashboard</h3>
+			</div>
+			<div class="card-body">
+				<p class="card-text">Makes management of the Mathison Projects servers significantly easier, faster, and more stable.</p>
+			</div>
+		</div>
 		
-		<p>Makes management of the Mathison Projects servers significantly easier, faster, and more stable.</p>
-
+	
 		<div class='row'>
 			<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2'>
 				<button type='button' class='btn btn-primary btn-block' @click='changePage("auth")'>
@@ -18,10 +24,15 @@
 				</button>
 			</div>
 			<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2'>
-				<button type='button' class='btn btn-primary btn-block' @click='changePage("")' disabled>
+				<button type='button' class='btn btn-warning btn-block' @click='changeDevMode' v-if="developmentMode">
 					<i class="fab fa-dev fis-3"></i><br />
 					Dev Mode
 				</button>
+				<button type='button' class='btn btn-info btn-block' @click='changeDevMode' v-if="!developmentMode">
+					<i class="fab fa-dev fis-3"></i><br />
+					Cache Mode
+				</button>
+
 			</div>
 			<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2'>
 				<button type='button' class='btn btn-primary btn-block' @click='changePage("")' disabled>
@@ -48,7 +59,7 @@
 				</button>
 			</div>
 			<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2'>
-				<button type='button' class='btn btn-primary btn-block' @click='changePage("")' disabled>
+				<button type='button' class='btn btn-primary btn-block' @click='changePage("nodejs")'>
 					<i class="fab fa-node-js fis-3"></i><br />
 					Node
 				</button>
@@ -65,20 +76,30 @@
 
 <script>
 	export default {
-		name: 'default-layout-component',
+		name: 'home-component',
 		components: {},
 		props: [],
 		data() {
 			return {}
 		},
 		created() {
-			this.$store.dispatch('cloudflareStore/getDevModes');
+			this.$Helper.nodeServer.sendUp('getDevelopmentMode');
 		},
-		computed: {},
+		computed: {
+			developmentMode() {
+				return this.$store.state.cloudflareStore.devmode;
+			}
+		},
 		methods: {
 			changePage(page) {
-				console.log(page);
 				this.$router.push(page);
+			},
+			changeDevMode() {
+				if (this.developmentMode == true) {
+					this.$Helper.nodeServer.sendUp('changeDevelopmentMode', 'off');
+				} else {
+					this.$Helper.nodeServer.sendUp('changeDevelopmentMode', 'on');
+				}
 			}
 		}
 	};

@@ -1,31 +1,17 @@
-/*
-	Cloudflare requires leveraging something that bypasses CORS. Webbrowsers will not do.
-
-	NodeJs will do.
-*/
-
 export default {
 	namespaced: true,
 	state     : {
-		devmode: [
-			{
-				site: '',
-				active: false
-			}
-		]
+		devmode: false
 	},
 	mutations : {
 		SET_DEVMODE(state, payload) {
-
+			state.devmode = payload;
 		}
 
 	},
 	actions   : {
-		getDevModes() {
-
-		},
-		refreshDevMode({commit}) {
-
+		setDevMode({commit}, payload) {
+			commit('SET_DEVMODE', payload);
 		}
 	},
 	getters   : {}

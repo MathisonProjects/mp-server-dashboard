@@ -87,23 +87,11 @@
 					uid : uid
 				};
 				if (type == 'client_key') {
-					this.$Helper.notifications.refreshingClientKey();
-					axios.post('api/v1/auth/refreshClient', data).then( response => {
-						this.$Helper.notifications.refreshedClientKey();
-						this.refreshAuths();
-					});
+					this.$Helper.api.refreshClient(data).then( response => { this.refreshAuths(); });
 				} else if (type == 'client_secret') {
-					this.$Helper.notifications.refreshingClientSecret();
-					axios.post('api/v1/auth/refreshSecret', data).then( response => {
-						this.$Helper.notifications.refreshedClientSecret();
-						this.refreshAuths();
-					});
+					this.$Helper.api.refreshSecret(data).then( response => { this.refreshAuths(); });
 				} else if (type == 'api_key') {
-					this.$Helper.notifications.refreshingApiKey();
-					axios.post('api/v1/auth/refreshApiKey', data).then( response => {
-						this.$Helper.notifications.refreshedApiKey();
-						this.refreshAuths();
-					});
+					this.$Helper.api.refreshApiKey(data).then( response => { this.refreshAuths(); });
 				}
 			},
 			suspendUser(uid, active) {

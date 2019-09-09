@@ -24,5 +24,6 @@ const app = new Vue({
     router,
     created() {
     	console.log('Application is running...');
+    	this.$Helper.nodeServer.setUp();
     }
 });
