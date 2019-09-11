@@ -7115,7 +7115,7 @@ __webpack_require__.r(__webpack_exports__);
   props: [],
   components: {},
   created: function created() {
-    this.$store.dispatch('nodeStore/refreshServers');
+    this.$Helper.api.refreshServerList();
   },
   data: function data() {
     return {};
@@ -7130,7 +7130,9 @@ __webpack_require__.r(__webpack_exports__);
       }];
     }
   },
-  methods: {},
+  methods: {
+    handleModal: function handleModal(args) {}
+  },
   watch: {}
 });
 
@@ -115235,6 +115237,8 @@ webpackContext.id = "./resources/js/helpers/modules sync \\.js$";
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notifications */ "./resources/js/helpers/modules/notifications.js");
+/* harmony import */ var _stores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../stores */ "./resources/js/stores/index.js");
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   fireApi: function fireApi(info, endpoint, data, success) {
@@ -115250,13 +115254,13 @@ __webpack_require__.r(__webpack_exports__);
       _notifications__WEBPACK_IMPORTED_MODULE_0__["default"].createdUser();
     });
   },
-  updateUser: function updateUser() {
+  updateUser: function updateUser(data) {
     _notifications__WEBPACK_IMPORTED_MODULE_0__["default"].createUserAttempt();
     axios.post('api/v1/updateUser', data).then(function (response) {
       _notifications__WEBPACK_IMPORTED_MODULE_0__["default"].createdUser();
     });
   },
-  suspendUser: function suspendUser() {
+  suspendUser: function suspendUser(data) {
     return this.fireApi('createUserAttempt', 'api/v1/auth/suspendUser', data, 'createdUser');
   },
   refreshClient: function refreshClient(data) {
@@ -115269,9 +115273,17 @@ __webpack_require__.r(__webpack_exports__);
     return this.fireApi('refreshingApiKey', 'api/v1/auth/refreshApiKey', data, 'refreshedApiKey');
   },
   // Node
-  refreshServerList: function refreshServerList() {},
-  addServer: function addServer() {},
-  updateServer: function updateServer() {},
+  refreshServerList: function refreshServerList() {
+    this.fireApi('refreshingServerList', 'api/v1/node/refreshServerList', {}, 'refreshedServerList').then(function (response) {
+      console.log(response);
+    });
+  },
+  addServer: function addServer(data) {
+    return this.fireApi('nodeAddServer', 'api/v1/node/addServer', data, 'nodeAddedServer');
+  },
+  updateServer: function updateServer(data) {
+    return this.fireApi('nodeUpdateServer', 'api/v1/node/updateServer', data, 'nodeUpdateServer');
+  },
   rebootServer: function rebootServer() {},
   activateServer: function activateServer() {}
 });
@@ -115349,6 +115361,9 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         _stores__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch('cloudflareStore/setDevMode', false);
       }
+    });
+    this.socket.on('NodeResponse', function (payload) {
+      console.log(payload.log);
     });
   },
   sendUp: function sendUp(endpoint) {
@@ -115483,6 +115498,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   taskDeleted: function taskDeleted() {
     this.fireSuccess('ToDo - Task Deleted', 'Task is now deleted.');
+  },
+  // Node
+  refreshingServerList: function refreshingServerList() {
+    this.fireInfo('Node - Refreshing Servers', 'We are refreshing the list...');
+  },
+  refreshedServerList: function refreshedServerList() {
+    this.fireSuccess('Node - Servers Refreshed', 'The list is now refreshed');
   }
 });
 

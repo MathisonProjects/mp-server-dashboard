@@ -25,6 +25,10 @@ export default {
 				store.dispatch('cloudflareStore/setDevMode', false);
 			}
 		});
+
+		this.socket.on('NodeResponse', (payload) => {
+			console.log(payload.log);
+		});
 	},
 	sendUp(endpoint, args = null) {
 		// Makes it possible to communicate with node live

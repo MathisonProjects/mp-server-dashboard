@@ -35,8 +35,7 @@
 		props     : [],
 		components: {},
 		created()   {
-			this.$store.dispatch('nodeStore/refreshServers');
-			
+			this.$Helper.api.refreshServerList();
 		},
 		data()      { return {} },
 		computed  : {
@@ -51,7 +50,11 @@
 				];
 			}
 		},
-		methods   : {},
+		methods   : {
+			handleModal(args) {
+				
+			}
+		},
 		watch     : {}
 	};
 </script>

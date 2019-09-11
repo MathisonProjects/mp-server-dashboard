@@ -44,6 +44,12 @@ Route::prefix('v1')->group(function () {
 		Route::post('refreshSecret' , 'Api\AuthController@refreshSecret');
 		Route::post('refreshApiKey' , 'Api\AuthController@refreshApiKey');
 	});
+
+	Route::prefix('node')->group(function() {
+		Route::post('refreshServerList', 'Api\NodeController@refreshServerList');
+		Route::post('addServer', 'Api\NodeController@addServer');
+		Route::post('updateServer', 'Api\NodeController@updateServer');
+	});
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

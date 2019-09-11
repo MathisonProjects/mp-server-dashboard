@@ -58,6 +58,33 @@ io.on('connection', function(socket){
 				console.log(error);
 			});
 	});
+
+	socket.on('checkNodeStatus', function(dir) {
+		runConsole('Checking Node...');
+
+		socket.emit('NodeResponse', { log: 'Node, ' + dir + ' has been checked.' });
+	});
+
+	socket.on('activateNode', function(dir) {
+		runConsole('Activating Node...');
+		socket.emit('NodeResponse', { log: 'Node, ' + dir + ' has been activated.' });
+	});
+
+	socket.on('activateNode', function(dir) {
+		runConsole('Deactivating Node...');
+		socket.emit('NodeResponse', { log: 'Node, ' + dir + ' has been deactivated.' });
+	});
+
+
+	socket.on('rebootNode', function(dir) {
+		runConsole('Rebooting Node...');
+		socket.emit('NodeResponse', { log: 'Node, ' + dir + ' has been rebooted.' });
+	});
+
+	socket.on('rebootAll', function(dir) {
+		runConsole('Rebooting Nodes...');
+		socket.emit('NodeResponse', { log: 'Nodes have been all rebooted' });
+	});
 });
 
 server.listen(port, function(){

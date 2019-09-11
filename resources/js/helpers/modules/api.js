@@ -1,5 +1,7 @@
 import notifications from './notifications';
 
+import {store} from "../../stores";
+
 export default {
 	fireApi(info, endpoint, data, success) {
 		notifications[info]();
@@ -14,13 +16,13 @@ export default {
 			notifications.createdUser();
 		} );
 	},
-	updateUser() {
+	updateUser(data) {
 		notifications.createUserAttempt();
 		axios.post('api/v1/updateUser', data).then( response => {
 			notifications.createdUser();
 		} );
 	},
-	suspendUser() {
+	suspendUser(data) {
 		return this.fireApi('createUserAttempt', 'api/v1/auth/suspendUser', data, 'createdUser');
 	},
 	refreshClient(data) {
@@ -33,9 +35,17 @@ export default {
 		return this.fireApi('refreshingApiKey', 'api/v1/auth/refreshApiKey', data, 'refreshedApiKey');
 	},
 	// Node
-	refreshServerList() {},
-	addServer() {},
-	updateServer() {},
+	refreshServerList() {
+		this.fireApi('refreshingServerList', 'api/v1/node/refreshServerList', {}, 'refreshedServerList').then( response => {
+			console.log(response);
+		});
+	},
+	addServer(data) {
+		return this.fireApi('nodeAddServer', 'api/v1/node/addServer', data, 'nodeAddedServer');
+	},
+	updateServer(data) {
+		return this.fireApi('nodeUpdateServer', 'api/v1/node/updateServer', data, 'nodeUpdateServer');
+	},
 	rebootServer() {},
 	activateServer() {}
 }
