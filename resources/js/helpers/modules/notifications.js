@@ -129,5 +129,17 @@ export default {
 	},
 	refreshedServerList() {
 		this.fireSuccess( 'Node - Servers Refreshed', 'The list is now refreshed' );
+	},
+	nodeAddServer() {
+		this.fireInfo( 'Node - Server Being Added', 'Node Server is now being added.');
+	},
+	nodeAddedServer() {
+		this.fireSuccess( 'Node - Server Added', 'Node Server is now added.')
+	},
+	nodeUpdateServer() {
+		this.fireInfo( 'Node - Server Being Updated', 'Node Server is now being updated.')
+	},
+	nodeUpdateServer() {
+		this.fireSuccess( 'Node - Server Updated', 'Node Server is now updated.')
 	}
 }

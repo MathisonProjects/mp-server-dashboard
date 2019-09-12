@@ -14,14 +14,14 @@ class NodeController extends Controller
     }
 
 	public function addServer(Request $request) {
-		$server = new NodeServer;
+		$server = new NodeServers;
 		$server->name = $request->input('name');
 		$server->directory = $request->input('directory');
 		$server->save();
 	}
 
 	public function updateServer(Request $request) {
-		$server = NodeServer::find($request->input('id'));
+		$server = NodeServers::find($request->input('id'));
 		$server->name = $request->input('name');
 		$server->directory = $request->input('directory');
 		$server->save();

@@ -5,15 +5,15 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="itemModalLabel">{{ params.title }}</h4>
-						<button type="button" class="close" aria-label="Close" @click="('close')">
+						<button type="button" class="close" aria-label="Close" @click="$emit('close')">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<ExampleModalComponent v-if='params.modal == "ModalName"' @close='("close")' :args='params.args' />
+						<NodeSetComponent v-if='params.modal == "CreateNodeServer"' @handleModal='handleModal' @close='$emit("close")' :params='params.args' />
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" @click="('close')">Close</button>
+						<button type="button" class="btn btn-secondary" @click="$emit('close')">Close</button>
 					</div>
 				</div>
 			</div>
@@ -25,19 +25,23 @@
 
 
 <script>
-	import ExampleModalComponent from './ExampleModalComponent';
+	import NodeSetComponent from './NodeSetComponent';
 	export default {
 		name      : "modal-component",
 		props     : [
 			'params'
 		],
 		components: { 
-			ExampleModalComponent
+			NodeSetComponent
 		},
 		created()   {},
 		data()      { return {} },
 		computed  : {},
-		methods   : { },
+		methods   : {
+			handleModal(args) {
+				this.$emit('handleModal', args);
+			}
+		},
 		watch     : {}
 	};
 </script>

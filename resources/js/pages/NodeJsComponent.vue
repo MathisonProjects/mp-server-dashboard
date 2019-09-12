@@ -5,7 +5,7 @@
 				<h3>Node JS Management</h3>
 			</div>
 			<div class='col text-right'>
-				<button type='button' class='btn btn-primary'><i class='fas fa-plus'></i> New Node</button>
+				<button type='button' class='btn btn-primary' @click='openModal({ title: "Set Node Server", modal: "CreateNodeServer", args: {} })'><i class='fas fa-plus'></i> New Node</button>
 			</div>
 		</div>
 
@@ -26,33 +26,57 @@
 				<td>{{ item.id }}</td>
 			</tr>
 		</table>
+		<ModalComponent :params='modalParams' v-if='modalShow' @handleModal='handleModal' @close='modalShow = false' />
 	</div>
 </template>
 
 <script>
+	import ModalComponent from '../components/Node/ModalComponent';
+
 	export default {
 		name      : "node-js-component",
 		props     : [],
-		components: {},
+		components: {
+			ModalComponent
+		},
 		created()   {
 			this.$Helper.api.refreshServerList();
 		},
-		data()      { return {} },
+		data()      {
+			return {
+				modalParams: {},
+				modalShow: false
+			} 
+		},
 		computed  : {
 			nodeServers() {
-				return [
-					{
-						id       : 0,
-						name     : 'Dashboard Node',
-						directory: '/var/www/html/live/dashboard.mathisonprojects.com/public/node/server.js',
-						active   : true
-					}
-				];
+				return this.$store.state.nodeStore.servers;
 			}
 		},
 		methods   : {
+			openModal(args) {
+				this.modalParams = args;
+				this.modalShow = true;
+			},
 			handleModal(args) {
-				
+				if (args.function !== undefined) {
+					if (args.function == 'saveNodeServer') {
+						
+						var data = {
+							name       : args.name,
+							directory: args.directory
+						};
+
+						if (args.id !== undefined && args.id != null) {
+							data.id = args.id;
+							this.$Helper.api.updateServer(data);
+						} else {
+							this.$Helper.api.addServer( data);
+						}
+					}
+				}
+
+				this.modalShow = false;
 			}
 		},
 		watch     : {}
