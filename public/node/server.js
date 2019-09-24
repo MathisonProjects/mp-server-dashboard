@@ -1,10 +1,10 @@
 #!/usr/bin/env nodejs
-require('dotenv').config();
 require('dotenv').config(
 	{
 		path: '/var/www/html/live/dashboard.mathisonprojects.com/.env'
 	}
 );
+const shell = require('shelljs');
 var express = require('express'),
     http = require('http');
 var app = express();
@@ -84,6 +84,11 @@ io.on('connection', function(socket){
 	socket.on('rebootAll', function(dir) {
 		runConsole('Rebooting Nodes...');
 		socket.emit('NodeResponse', { log: 'Nodes have been all rebooted' });
+	});
+
+	socket.on('runShell', function(script) {
+		runConsole('Running Script: ' + script);
+		shell.exec(script);
 	});
 });
 

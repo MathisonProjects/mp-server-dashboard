@@ -19,7 +19,7 @@ const routes = [
 				path      : 'todo',
 				name      : 'home-todo',
 				component : require('../pages/ToDoListComponent.vue').default,
-				meta      : { title : 'Home' }
+				meta      : { title : 'Todo' }
 			},
 			{
 				path      : 'auth',
@@ -32,6 +32,12 @@ const routes = [
 				name      : 'home-nodejs',
 				component : require('../pages/NodeJsComponent.vue').default,
 				meta      : { title : 'Node JS Servers' }
+			},
+{
+				path      : 'shell',
+				name      : 'home-shell',
+				component : require('../pages/ShellComponent.vue').default,
+				meta      : { title : 'Shell Scripts' }
 			},
 
 		]

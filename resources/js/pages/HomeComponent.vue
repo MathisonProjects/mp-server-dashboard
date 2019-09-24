@@ -70,6 +70,13 @@
 					Bot
 				</button>
 			</div>
+			<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2'>
+				<button type='button' class='btn btn-primary btn-block' @click='changePage("shell")'>
+					<i class="fas fa-server fis-3"></i><br />
+					Shell
+				</button>
+			</div>
+
 		</div>
 	</div>
 </template>
