@@ -50,6 +50,13 @@ Route::prefix('v1')->group(function () {
 		Route::post('addServer', 'Api\NodeController@addServer');
 		Route::post('updateServer', 'Api\NodeController@updateServer');
 	});
+
+	Route::prefix('site')->group(function() {
+		Route::post('getSites', 'Api\SiteManagementController@getSites');
+		Route::post('saveSite', 'Api\SiteManagementController@saveSite');
+	});
+
+
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

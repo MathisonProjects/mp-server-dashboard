@@ -33,11 +33,17 @@ const routes = [
 				component : require('../pages/NodeJsComponent.vue').default,
 				meta      : { title : 'Node JS Servers' }
 			},
-{
+			{
 				path      : 'shell',
 				name      : 'home-shell',
 				component : require('../pages/ShellComponent.vue').default,
 				meta      : { title : 'Shell Scripts' }
+			},
+			{
+				path      : 'sites',
+				name      : 'home-sites',
+				component : require('../pages/SitesComponent.vue').default,
+				meta      : { title : 'Sites' }
 			},
 
 		]

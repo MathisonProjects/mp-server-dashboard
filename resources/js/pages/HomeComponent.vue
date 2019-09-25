@@ -76,6 +76,13 @@
 					Shell
 				</button>
 			</div>
+			<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2'>
+				<button type='button' class='btn btn-primary btn-block' @click='changePage("sites")'>
+					<i class="fas fa-copy fis-3"></i><br />
+					Sites
+				</button>
+			</div>
+
 
 		</div>
 	</div>

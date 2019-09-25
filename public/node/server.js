@@ -38,7 +38,7 @@ io.on('connection', function(socket){
 
 	socket.on('getDevelopmentMode', function() {
 		runConsole('Getting Mode...');
-		cf.zones.read('40d98dc76a92a76456f86f55850a51c5/settings/development_mode')
+		cf.zones.read(cfZones['primary-MP'] + '/settings/development_mode')
 		.then( response => {
 
 			socket.emit('ModeResponse', response);
@@ -50,13 +50,24 @@ io.on('connection', function(socket){
 
 	socket.on('changeDevelopmentMode', function(mode) { // string "on"/"off"
 		runConsole('Changing Mode...');
-		cf.zones.edit('40d98dc76a92a76456f86f55850a51c5/settings/development_mode', { value : mode })
+		cf.zones.edit(cfZones['primary-MP'] + '/settings/development_mode', { value : mode })
 			.then( response => {
 				socket.emit('ModeResponse', response);
 			})
 			.catch( error => {
 				console.log(error);
 			});
+	});
+
+	socket.on('createSubdomain', function(data) {
+		runConsole('Creating subdomain...');
+		console.log(data);
+		cf.zones.add(cfZones['dev-MP'] + '/dns_records', JSON.stringify(data)).then( response => {
+			console.log(response);
+		} )
+		.catch( error => {
+			console.log(error);
+		});
 	});
 
 	socket.on('checkNodeStatus', function(dir) {
@@ -111,4 +122,9 @@ function runConsole(info) {
 	console.log('-----------------------');
 	console.log(info);
 	console.log('-----------------------');
+}
+
+const cfZones = {
+	'primary-MP' : '40d98dc76a92a76456f86f55850a51c5',
+	'dev-MP'     : 'cdac39d67f002413b1006b9ac1bbbaef'
 }
