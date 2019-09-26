@@ -99,35 +99,35 @@
 			save() {
 				/*
 					Cloudflare
-						- Create Dev
-						- Create Test
 						- Create new site
 					Git
 						- Pull Base Git Repository
 					Site
-						- Create Dev Environment
-						- Create Test Environment
-						- Create Live Environment
 						- npm install into Dev
 						- Composer Install into Dev
 					Git
 						- Create Assign to new Git
 						- Autopush to git
+					Permissions
+						chown
+						chmod
 					Apache
 						- Route for one of 5 defaults
-						- Apache Restart
-					Refresh Apache
 				*/
 
-				this.$Helper.nodeServer.sendUp('createSubdomain', {
-					type    : 'CNAME',
-					name     : this.links.dev,
-					content  : '127.0.0.1',
-					ttl      : {},
-					priority : 10,
-					proxied  : false
-				});
+				this.createSubdomain(this.links.dev);
+				this.createSubdomain(this.links.test);
+				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url);
+				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url + "/" + this.links.dev);
+				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url + "/" + this.links.test);
+				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url + "/" + this.links.live);
+				this.$Helper.nodeServer.sendUp('runShell', '/var/www/html/live/dashboard.mathisonprojects.com/app/Shell/ChownJacob.sh');
 
+				this.$Helper.nodeServer.sendUp('runShell', '/var/www/html/live/dashboard.mathisonprojects.com/app/Shell/ApacheRestart.sh');
+
+			},
+			createSubdomain(domain) {
+				this.$Helper.nodeServer.sendUp('createSubdomain', { type : 'CNAME', name : domain, content : 'mathisonprojects.dev', proxied  : true });
 			},
 			pushDevToTest() {},
 			pushTestToLive() {}

@@ -11,9 +11,10 @@ var app = express();
 var server = http.createServer(app);
 var port = 4000;
 var io = require('socket.io').listen(server);
+var fs = require('fs');
 
 var cf = require('cloudflare')({
-  email: 'admin+cloudflare@zing.land',
+  email: process.env.CLOUDFLARE_EMAIL,
   key  : process.env.CLOUDFLARE_READ_APIKEY
 });
 
@@ -62,12 +63,19 @@ io.on('connection', function(socket){
 	socket.on('createSubdomain', function(data) {
 		runConsole('Creating subdomain...');
 		console.log(data);
-		cf.zones.add(cfZones['dev-MP'] + '/dns_records', JSON.stringify(data)).then( response => {
+		cf.dnsRecords.add(cfZones['dev-MP'], JSON.stringify(data)).then( response => {
 			console.log(response);
 		} )
 		.catch( error => {
 			console.log(error);
 		});
+	});
+
+	socket.on('createDirectory', function(url) {
+		runConsole('Creating directory... - ' + process.env.SERVER_DIRECTORY + url);
+		if (!fs.existsSync(process.env.SERVER_DIRECTORY + url)){
+		    fs.mkdirSync(process.env.SERVER_DIRECTORY + url);
+		}
 	});
 
 	socket.on('checkNodeStatus', function(dir) {
