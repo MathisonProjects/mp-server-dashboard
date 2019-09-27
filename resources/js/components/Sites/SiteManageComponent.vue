@@ -43,11 +43,11 @@
 			<label for='apache'>Virtual Host</label>
 			<select class='form-control form-control-sm' v-model='data.apache'>
 				<option>-- Select Option --</option>
-				<option>Laravel Only</option>
-				<option>Laravel + NodeJs</option>
-				<option>VueJs Only</option>
-				<option>VueJs + NodeJs</option>
-				<option>NodeJs Only</option>
+				<option value='0'>Laravel Only</option>
+				<option value='1'>Laravel + NodeJs</option>
+				<option value='2'>VueJs Only</option>
+				<option value='3'>VueJs + NodeJs</option>
+				<option value='4'>NodeJs Only</option>
 			</select>
 		</div>
 
@@ -109,7 +109,6 @@
 						- Create Assign to new Git
 						- Autopush to git
 					Permissions
-						chown
 						chmod
 					Apache
 						- Route for one of 5 defaults

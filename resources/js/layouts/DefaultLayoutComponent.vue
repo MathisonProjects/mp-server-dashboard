@@ -10,7 +10,7 @@
 			</div>
 			
 			<div v-if='loggedIn'>
-				<DefaultNavHeaderComponent />
+				<DefaultNavHeaderComponent class='my-3' />
 				<div  class='container my-3'>
 
 					<div class="card" v-if='!errors.node'>

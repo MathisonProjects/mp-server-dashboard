@@ -51,13 +51,9 @@ io.on('connection', function(socket){
 
 	socket.on('changeDevelopmentMode', function(mode) { // string "on"/"off"
 		runConsole('Changing Mode...');
-		cf.zones.edit(cfZones['primary-MP'] + '/settings/development_mode', { value : mode })
-			.then( response => {
-				socket.emit('ModeResponse', response);
-			})
-			.catch( error => {
-				console.log(error);
-			});
+		cf.zones.edit(cfZones['primary-MP'] + '/settings/development_mode', { value : mode }).then( response => { socket.emit('ModeResponse', response); }).catch( error => { console.log(error); });
+		// Maintains Dev environment and dashboard are synced.
+		cf.zones.edit(cfZones['dev-MP'] + '/settings/development_mode', { value : mode }).then( response => { socket.emit('ModeResponse', response); }).catch( error => { console.log(error); });
 	});
 
 	socket.on('createSubdomain', function(data) {
