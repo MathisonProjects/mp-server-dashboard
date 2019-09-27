@@ -3,6 +3,7 @@
 SITENAME=${1}
 URLNAME=${2}
 PORTNUM=${3}
+VHOSTTYPE=${4}
 
 SetDocRoot()
 {
@@ -44,7 +45,7 @@ elif [ "$VHOSTTYPE" == 2 ]; then # VueJs Only
 	echo "ErrorLog /var/log/apache2/sites/error/${URLNAME}-error.log" >> /etc/apache2/sites-available/${URLNAME}.conf
 	echo "CustomLog /var/log/apache2/sites/access/${URLNAME}-access.log combined" >> /etc/apache2/sites-available/${URLNAME}.conf
 elif [ "$VHOSTTYPE" == 3 ]; then # VueJs + NodeJs
-	# Needs exploration
+	echo "Currently not supported..."
 elif [ "$VHOSTTYPE" == 4 ]; then # NodeJs Only
 	echo "        DocumentRoot /var/www/html/managed/${SITENAME}/${URLNAME}" >> /etc/apache2/sites-available/${URLNAME}.conf
 	echo "        ErrorLog /var/log/apache2/sites/error/${URLNAME}-error.log" >> /etc/apache2/sites-available/${URLNAME}.conf

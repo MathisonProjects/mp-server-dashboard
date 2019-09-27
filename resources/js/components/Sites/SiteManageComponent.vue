@@ -43,23 +43,23 @@
 			<label for='apache'>Virtual Host</label>
 			<select class='form-control form-control-sm' v-model='data.apache'>
 				<option>-- Select Option --</option>
-				<option value='0'>Laravel Only</option>
-				<option value='1'>Laravel + NodeJs</option>
-				<option value='2'>VueJs Only</option>
-				<option value='3'>VueJs + NodeJs</option>
-				<option value='4'>NodeJs Only</option>
+				<option v-bind:value='0'>Laravel Only</option>
+				<option v-bind:value='1'>Laravel + NodeJs</option>
+				<option v-bind:value='2'>VueJs Only</option>
+				<option v-bind:value='3'>VueJs + NodeJs</option>
+				<option v-bind:value='4'>NodeJs Only</option>
 			</select>
 		</div>
 
 		<div class='row'>
 			<div class='col'>
-				<button type='button' class='btn btn-primary' @click='save'><i class='fas fa-save'></i> Save</button>
+				<button type='button' class='btn btn-primary btn-block' @click='save'><i class='fas fa-save'></i> Save</button>
 			</div>
 			<div class='col text-center'>
-				<button type='button' class='btn btn-primary'><i class='fas fa-vial'></i> Push to Test</button>
+				<button type='button' class='btn btn-primary btn-block'><i class='fas fa-vial'></i> Push to Test</button>
 			</div>
 			<div class='col text-right'>
-				<button type='button' class='btn btn-primary'><i class='fas fa-thumbs-up'></i> Push to Live</button>
+				<button type='button' class='btn btn-primary btn-block'><i class='fas fa-thumbs-up'></i> Push to Live</button>
 			</div>
 		</div>		
 	</div>
@@ -91,42 +91,52 @@
 				return {
 					dev : 'dev-' + link.replace('.', '-') + '.mathisonprojects.dev',
 					test: 'test-' + link.replace('.', '-') + '.mathisonprojects.dev',
-					live: '' + this.data.url
+					live: this.data.url
 				}
 			}
 		},
 		methods   : {
 			save() {
 				/*
-					Cloudflare
-						- Create new site
-					Git
-						- Pull Base Git Repository
-					Site
-						- npm install into Dev
-						- Composer Install into Dev
 					Git
 						- Create Assign to new Git
 						- Autopush to git
 					Permissions
 						chmod
-					Apache
-						- Route for one of 5 defaults
 				*/
 
+				// Cloudflare Main Site
+
+				// Cloudflare Subdomains
 				this.createSubdomain(this.links.dev);
 				this.createSubdomain(this.links.test);
+
+				// Create important directories
 				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url);
-				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url + "/" + this.links.dev);
-				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url + "/" + this.links.test);
-				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url + "/" + this.links.live);
+
+				this.runCreate(this.links.dev);
+				this.runCreate(this.links.test);
+				this.runCreate(this.links.live);
+
 				this.$Helper.nodeServer.sendUp('runShell', '/var/www/html/live/dashboard.mathisonprojects.com/app/Shell/ChownJacob.sh');
 
 				this.$Helper.nodeServer.sendUp('runShell', '/var/www/html/live/dashboard.mathisonprojects.com/app/Shell/ApacheRestart.sh');
 
 			},
+			runCreate(site) {
+				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url + "/" + site);
+				this.gitClone({ repo : this.data.git.original, site : this.data.url, url : site });
+				this.$Helper.nodeServer.sendUp('runShell VHost', { site: this.data.url, url : site, vhost : this.data.apache });
+				this.$Helper.nodeServer.sendUp('runShell npmInstall', { site: this.data.url, url : site });
+				if (this.data.apache == 0 || this.data.apache == 1) {
+					this.$Helper.nodeServer.sendUp('runShell composerInstall', { site: this.data.url, url : site });
+				}
+			},
 			createSubdomain(domain) {
 				this.$Helper.nodeServer.sendUp('createSubdomain', { type : 'CNAME', name : domain, content : 'mathisonprojects.dev', proxied  : true });
+			},
+			gitClone(gitPayload) {
+				this.$Helper.nodeServer.sendUp('runShell git', gitPayload);
 			},
 			pushDevToTest() {},
 			pushTestToLive() {}

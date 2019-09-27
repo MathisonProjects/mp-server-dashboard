@@ -60,7 +60,7 @@ io.on('connection', function(socket){
 		runConsole('Creating subdomain...');
 		console.log(data);
 		cf.dnsRecords.add(cfZones['dev-MP'], JSON.stringify(data)).then( response => {
-			console.log(response);
+			console.log('Subdomain created...')
 		} )
 		.catch( error => {
 			console.log(error);
@@ -105,6 +105,28 @@ io.on('connection', function(socket){
 		runConsole('Running Script: ' + script);
 		shell.exec(script);
 	});
+
+	socket.on('runShell git', function(payload) {
+		runConsole('Running Script: Cloning Git Repo');
+		shell.exec(ShellDir + 'GitClone.sh ' + payload.repo + ' ' + payload.site + ' ' + payload.url);
+	});
+
+	socket.on('runShell VHost', function(payload) {
+		runConsole('Running Script: Creating Virtual Host');
+		shell.exec(ShellDir + 'CreateVirtualHost.sh ' + payload.site + ' ' + payload.url + ' ' + 9999 + ' ' + payload.vhost);
+	});
+
+	socket.on('runShell npmInstall', function(payload) {
+		runConsole('Running Script: NPM Install');
+		shell.exec(ShellDir + 'NpmInstall.sh ' + payload.site + ' ' + payload.url); 
+	});
+
+	socket.on('runShell composerInstall', function(payload) {
+		runConsole('Running Script: Composer Install');
+		shell.exec(ShellDir + 'ComposerInstall.sh ' + payload.site + ' ' + payload.url); 
+	});
+
+
 });
 
 server.listen(port, function(){
@@ -128,7 +150,11 @@ function runConsole(info) {
 	console.log('-----------------------');
 }
 
+
+// Break these into the Environment variables (eventually)
 const cfZones = {
 	'primary-MP' : '40d98dc76a92a76456f86f55850a51c5',
 	'dev-MP'     : 'cdac39d67f002413b1006b9ac1bbbaef'
 }
+
+const ShellDir = '/var/www/html/live/dashboard.mathisonprojects.com/app/Shell/'
