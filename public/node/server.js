@@ -122,8 +122,8 @@ io.on('connection', function(socket){
 	});
 
 	socket.on('runShell composerInstall', function(payload) {
-		runConsole('Running Script: Composer Install');
-		shell.exec(ShellDir + 'ComposerInstall.sh ' + payload.site + ' ' + payload.url); 
+		runConsole('Running Script: Laravel Install');
+		shell.exec(ShellDir + 'LaravelInstall.sh ' + payload.site + ' ' + payload.url); 
 	});
 
 

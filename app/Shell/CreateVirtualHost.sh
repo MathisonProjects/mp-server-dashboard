@@ -22,7 +22,7 @@ echo 'Creating Virtualhost...'
 echo > /etc/apache2/sites-available/${URLNAME}.conf
 
 echo "<VirtualHost *:80>" >> /etc/apache2/sites-available/${URLNAME}.conf
-echo "	ServerName ${SITENAME}" >> /etc/apache2/sites-available/${URLNAME}.conf
+echo "	ServerName ${URLNAME}" >> /etc/apache2/sites-available/${URLNAME}.conf
 echo "	ServerAdmin jacob@mathisonprojects.com" >> /etc/apache2/sites-available/${URLNAME}.conf
 
 if [ "$VHOSTTYPE" == 0 ]; then # Laravel Only
