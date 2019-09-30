@@ -97,12 +97,26 @@
 		},
 		methods   : {
 			save() {
+				this.siteCreationProcess();
+
+				this.$Helper.api.saveSite({
+					name        : this.data.name,
+					description : this.data.description,
+					data        : {
+						git        : this.data.git,
+						links      : this.links,
+						virtualHost: this.virtualHost
+					}
+				});
+
+				this.$emit('close');
+
+			},
+			siteCreationProcess() {
 				/*
 					Git
 						- Create Assign to new Git
 						- Autopush to git
-					Permissions
-						chmod
 				*/
 
 				// Cloudflare Main Site
@@ -121,7 +135,6 @@
 				this.$Helper.nodeServer.sendUp('runShell', '/var/www/html/live/dashboard.mathisonprojects.com/app/Shell/ChownJacob.sh');
 
 				this.$Helper.nodeServer.sendUp('runShell', '/var/www/html/live/dashboard.mathisonprojects.com/app/Shell/ApacheRestart.sh');
-
 			},
 			runCreate(site) {
 				this.$Helper.nodeServer.sendUp('createDirectory', this.data.url + "/" + site);

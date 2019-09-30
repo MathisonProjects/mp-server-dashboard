@@ -10,15 +10,29 @@
 		</div>
 
 		<div class='row'>
-			<div class='col-3'>
+			<div class='col-sm-12 col-md-3'>
 				<ul class="list-group">
-					<li class="list-group-item" v-for="item in siteList">this</li>
+					<li class="list-group-item" v-for="item, index in siteList">
+						<a href='javascript:void(0)' @click='currentSite = index'>{{ item.name}}</a>
+						<span class='small'>{{ item.description }}</span>
+					</li>
 					<li class="list-group-item" v-if="siteList.length == 0">
 						There are no sites... :(
 					</li>
 				</ul>
 			</div>
-			<div class='col'>
+			<div class='col' v-if='currentSite == null'>
+				<div class="card">
+				  <div class="card-header">
+				    Please select a site....
+				  </div>
+				  <div class="card-body">
+				    <h5 class="card-title">No site is currently selected...</h5>
+				    <p class="card-text">You may view site info if you select a site at the left/top.</p>
+				  </div>
+				</div>
+			</div>
+			<div class='col' v-if='currentSite != null'>
 				<div class="card">
 				  <div class="card-header">
 				    Site Name
@@ -26,19 +40,19 @@
 				  <div class="card-body">
 
 				  	<div class='row'>
-				  		<div class='col'>
+				  		<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 my-1'>
 				  			<button type='button' class='btn btn-danger btn-block'><i class='fas fa-trash'></i> Delete</button>
 				  		</div>
-				  		<div class='col'>
+				  		<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 my-1'>
 				  			<button type='button' class='btn btn-warning btn-block'><i class='fas fa-edit'></i> Edit</button>
 				  		</div>
-				  		<div class='col'>
+				  		<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 my-1'>
 				  			<button type='button' class='btn btn-primary btn-block'><i class='fas fa-trash-restore'></i> Redeploy</button>
 				  		</div>
-				  		<div class='col'>
+				  		<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 my-1'>
 				  			<button type='button' class='btn btn-info btn-block'><i class='fab fa-dev'></i> To Test</button>
 				  		</div>
-				  		<div class='col'>
+				  		<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3 my-1'>
 				  			<button type='button' class='btn btn-success btn-block'><i class='fas fa-power-off'></i> To Live</button>
 				  		</div>
 				  	</div>
@@ -97,24 +111,35 @@
 				return this.$store.state.sitesStore.sites;
 			},
 			currentSiteData() {
-				return {
-					name: 'Site Name',
-					description: 'This is a description of a site...',
-					git: {
-						original: 'https://github.com/laravel/laravel.git',
-						new     : 'https://github.com/Divinityfound/IgnoreThisRepo-APITest'
-					},
-					node: true,
-					links: {
-						dev : 'dev-thisisatest-com.mathisonprojects.dev',
-						test: 'dev-thisisatest-com.mathisonprojects.dev',
-						live: 'thisisatest.com'
-					},
-					virtualHost: 'VIRTUAL HOST INFO PENDING'
+				if (this.currentSite == null) {
+					return null;
+				} else {
+					var site = this.siteList[this.currentSite];
+					var data = JSON.parse(site.data);
+					console.log(data);
+					return {
+						name: site.name,
+						description: site.description,
+						git: {
+							original: data.git.original,
+							new     : data.git.new
+						},
+						links: {
+							dev : data.links.dev,
+							test: data.links.test,
+							live: data.links.live
+						},
+						node: true,
+						virtualHost: 'VIRTUAL HOST INFO PENDING'
+					};
 				}
 			}
 		},
 		methods   : {
+			closeModal() {
+				this.showModal = false;
+				this.$store.dispatch('sitesStore/getSites');
+			},
 			openModal(title, modal, args) {
 				this.modalParams = {
 					title : title,

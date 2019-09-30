@@ -14,6 +14,15 @@ class SiteManagementController extends Controller
     }
     
     public function saveSite(Request $request) {
-    	
+    	if ($request->input('id')) {
+    		$site = SiteManagement::find($request->input('id'));
+    	} else {
+    		$site = new SiteManagement;
+    	}
+
+    	$site->name        = $request->input('name');
+		$site->description = $request->input('description');
+		$site->data        = json_encode($request->input('data'));
+		$site->save();
     }
 }

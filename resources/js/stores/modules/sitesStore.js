@@ -14,7 +14,7 @@ export default {
 
 			axios.post('api/v1/site/getSites').then(response => {
 				var data = response.data;
-				commit('SET_SITES'  , data);
+				commit('SET_SITES', data);
 			});
 		}
 	},

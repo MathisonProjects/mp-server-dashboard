@@ -141,5 +141,12 @@ export default {
 	},
 	nodeUpdateServer() {
 		this.fireSuccess( 'Node - Server Updated', 'Node Server is now updated.')
+	},
+	// Site Management
+	siteManageCreating() {
+		this.fireInfo( 'Site Management - Site is being worked on', 'The site is being properly configured...')
+	},
+	siteManageCreated() {
+		this.fireSuccess( 'Site Management - Site is ready', 'The site has been configured.')
 	}
 }

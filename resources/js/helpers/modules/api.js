@@ -34,6 +34,10 @@ export default {
 	refreshApiKey(data) {
 		return this.fireApi('refreshingApiKey', 'api/v1/auth/refreshApiKey', data, 'refreshedApiKey');
 	},
+	// Site Management
+	saveSite(data) {
+		this.fireApi('siteManageCreating', 'api/v1/site/saveSite', data, 'siteManageCreated')
+	},
 	// Node
 	refreshServerList() {
 		this.fireApi('refreshingServerList', 'api/v1/node/refreshServerList', {}, 'refreshedServerList').then( response => {
